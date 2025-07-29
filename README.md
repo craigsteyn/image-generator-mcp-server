@@ -39,9 +39,11 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
 ```json
 {
   "mcpServers": {
-    "command": "image-generator",
+    "image-generator": {
+      "command": "image-generator",
       "env": {
         "OPENAI_API_KEY": "<your-openai-api-key>"
+      }
     }
   }
 }
@@ -51,11 +53,45 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
 ```json
 {
   "mcpServers": {
-    "command": "image-generator",
+    "image-generator": {
+      "command": "image-generator",
       "env": {
         "AZURE_OPENAI_API_KEY": "<your-azure-openai-api-key>",
         "AZURE_OPENAI_BASE_URL": "<your-azure-openai-endpoint>",
         "AZURE_OPENAI_API_VERSION": "2024-02-01"
+      }
+    }
+  }
+}
+```
+
+### Using npx (for regular OpenAI):
+```json
+{
+  "mcpServers": {
+    "image-generator": {
+      "command": "npx",
+      "args": ["image-generator-mcp"],
+      "env": {
+        "OPENAI_API_KEY": "<your-openai-api-key>"
+      }
+    }
+  }
+}
+```
+
+### Using npx (for Azure OpenAI):
+```json
+{
+  "mcpServers": {
+    "image-generator": {
+      "command": "npx",
+      "args": ["image-generator-mcp"],
+      "env": {
+        "AZURE_OPENAI_API_KEY": "<your-azure-openai-api-key>",
+        "AZURE_OPENAI_BASE_URL": "<your-azure-openai-endpoint>",
+        "AZURE_OPENAI_API_VERSION": "2024-02-01"
+      }
     }
   }
 }

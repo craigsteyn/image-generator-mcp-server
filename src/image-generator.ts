@@ -1,4 +1,4 @@
-import OpenAI from "openai";
+import OpenAI, { ClientOptions } from "openai";
 import { ImageGenerateParams } from "openai/resources/images.mjs";
 
 const IMAGE_MODEL = "dall-e-3";
@@ -22,7 +22,7 @@ export class ImageGenerator {
             throw new Error("API key is required. Please provide OPENAI_API_KEY or AZURE_OPENAI_API_KEY environment variable.");
         }
 
-        const openaiConfig: any = { apiKey };
+        const openaiConfig: ClientOptions = { apiKey };
 
         // Configure for Azure OpenAI if baseURL is provided
         if (baseURL) {
