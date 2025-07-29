@@ -2,7 +2,7 @@
 
 An mcp server that generates images based on image prompts
 
-This is a TypeScript-based MCP server that implements image generation using **OPENAI**'s `dall-e-3` image generation model.
+This is a TypeScript-based MCP server that implements image generation using **OpenAI**'s `dall-e-3` image generation model. It supports both regular OpenAI and Azure OpenAI endpoints.
 
 ## Features
 
@@ -35,6 +35,7 @@ To use with Claude Desktop, add the server config:
 On MacOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
 On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
 
+### For regular OpenAI:
 ```json
 {
   "mcpServers": {
@@ -45,7 +46,28 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
   }
 }
 ```
-Make sure to replace `<your-openai-api-key>` with your actual **OPENAI** Api Key.
+
+### For Azure OpenAI:
+```json
+{
+  "mcpServers": {
+    "command": "image-generator",
+      "env": {
+        "AZURE_OPENAI_API_KEY": "<your-azure-openai-api-key>",
+        "AZURE_OPENAI_BASE_URL": "<your-azure-openai-endpoint>",
+        "AZURE_OPENAI_API_VERSION": "2024-02-01"
+    }
+  }
+}
+```
+
+**Environment Variables:**
+- `OPENAI_API_KEY`: Your OpenAI API key (for regular OpenAI)
+- `AZURE_OPENAI_API_KEY`: Your Azure OpenAI API key
+- `AZURE_OPENAI_BASE_URL`: Your Azure OpenAI endpoint (e.g., `https://your-resource.openai.azure.com`)
+- `AZURE_OPENAI_API_VERSION`: The Azure OpenAI API version (e.g., `2024-02-01`)
+
+**Note:** If Azure environment variables are provided, the server will use Azure OpenAI. Otherwise, it will use regular OpenAI with the `OPENAI_API_KEY`.
 
 ### Debugging
 
