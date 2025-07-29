@@ -1,4 +1,4 @@
-import OpenAI, { ClientOptions } from "openai";
+import OpenAI, { AzureOpenAI, ClientOptions, AzureClientOptions } from "openai";
 import { ImageGenerateParams } from "openai/resources/images.mjs";
 
 const IMAGE_MODEL = "dall-e-3";
@@ -22,17 +22,19 @@ export class ImageGenerator {
             throw new Error("API key is required. Please provide OPENAI_API_KEY or AZURE_OPENAI_API_KEY environment variable.");
         }
 
-        const openaiConfig: ClientOptions = { apiKey };
-
-        // Configure for Azure OpenAI if baseURL is provided
-        if (baseURL) {
-            openaiConfig.baseURL = baseURL;
-            if (apiVersion) {
-                openaiConfig.defaultQuery = { 'api-version': apiVersion };
-            }
+        // Use AzureOpenAI client when Azure configuration is detected
+        if (baseURL || process.env.AZURE_OPENAI_API_KEY) {
+            const azureConfig: AzureClientOptions = {
+                apiKey,
+                endpoint: baseURL,
+                apiVersion
+            };
+            this.openai = new AzureOpenAI(azureConfig);
+        } else {
+            // Use regular OpenAI client for standard OpenAI API
+            const openaiConfig: ClientOptions = { apiKey };
+            this.openai = new OpenAI(openaiConfig);
         }
-
-        this.openai = new OpenAI(openaiConfig);
     }
 
     async generateImage(prompt: string, size: ImageGenerateParams['size'] = "1024x1024") {
